@@ -1,0 +1,269 @@
+{% extends 'grumblr/base_home_profile.html' %}
+
+{% block basic %}
+<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center;">
+
+            {% if other_user == True %}
+                <p>other</p>
+                {% if profile_form.picture.value %}
+                <img src="{% url 'get_other_photo' user.id %}" alt="{{ profile_form.user }}" style="width: 100%; height: 250px;"/>
+                {% else %}
+                <div style="width: 100%; height: 250px; border: solid">
+                </div>
+                {% endif %}
+            {% else %}
+                <p>not other</p>
+                {% if profile_form.picture.value %}
+                <img src="{% url 'get_photo' %}" alt="{{ profile_form.user }}" style="width: 100%; height: 250px;"/>
+                {% else %}
+                <div style="width: 100%; height: 250px; border: solid">
+                </div>
+                {% endif %}
+            {% endif %}
+
+
+
+            <p style="font-size: large">{{ user }}</p>
+            <input type="hidden" name="page_user" value="{{ user }}">
+
+            <hr>
+            {% if not other_user %}
+                <form action="{% url 'go_to_password_change_page' %}" method="post">{% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Change Password</button>
+                </form>
+            {% endif %}
+
+            {% if other_user %}
+                {% if not followed %}
+                <form action="{% url 'follow' %}" method="post">{% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Follow</button>
+                    <input type="hidden" name="other_user_id" value="{{ other_user_id }}"/>
+                </form>
+                {% else %}
+                <form action="{% url 'unfollow' %}" method="post">{% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Unfollow</button>
+                    <input type="hidden" name="other_user_id" value="{{ other_user_id }}"/>
+                </form>
+                {% endif %}
+            {% endif %}
+
+
+
+        </div>
+        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+            <ul class="nav nav-pills nav-justified">
+                <li class="active"><a href="#">Work</a></li>
+                <li><a href="#">Education</a></li>
+                <li><a href="#">Interest</a></li>
+                <li><a href="#">Friend</a></li>
+            </ul>
+
+            <hr>
+
+            <div class="table-responsive">
+
+                <!-- The input tag inside the table are all readonly -->
+                <table class="table table-hover" style="text-align: center">
+
+                    <tr>
+                        <td>First Name: </td>
+                        <td><input type="text" name="first_name" value="{{ profile_form.first_name.value }}" style="outline: none; width: 100%;" readonly/></td>
+                    </tr>
+                    <tr>
+                        <td>Last Name: </td>
+                        <td><input type="text" name="last_name" value="{{ profile_form.last_name.value }}" style="outline: none; width: 100%;" readonly/></td>
+                    </tr>
+                    <tr>
+                        <td>Age: </td>
+                        <td><input type="text" name="age" value="{{ profile_form.age.value }}" style="outline: none; width: 100%;" readonly/></td>
+                    </tr>
+                    <tr>
+                        <td>Short Bio: </td>
+                        <td><textarea name="short_bio" cols="30" rows="10" style="width: 100%;" readonly>{{ profile_form.short_bio.value }}</textarea></td>
+                    </tr>
+
+                </table>
+
+                {% if not other_user %}
+                    <a type="submit" class="btn btn-primary" style="float: right;" href="{% url 'go_to_profile_edit_page' %}">Edit profile</a>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+
+
+    <hr>
+
+    <div class="row" style="margin-top: 30px;">
+        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+        </div>
+
+        <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10">
+            {% if other_user == 'False' %}
+            {% else %}
+                <div class="row" style="margin-top: 10px;">
+
+                    {% if not other_user %}
+
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center;">
+
+
+
+                            {% if other_user == True %}
+                                <p>other</p>
+                                {% if profile_form.picture.value %}
+                                <img src="{% url 'get_other_photo' user.id %}" alt="" style="width: 100%; height: 80px;"/>
+                                {% else %}
+                                <div style="width: 100%; height: 80px; border: solid">
+                                </div>
+                                {% endif %}
+                            {% else %}
+                                <p>not other</p>
+                                {% if profile_form.picture.value %}
+                                <img src="{% url 'get_photo' %}" alt="{{ profile_form.user }}" style="width: 100%; height: 80px;"/>
+                                {% else %}
+                                <div style="width: 100%; height: 80px; border: solid">
+                                </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <p>{{ user }}</p>
+                        </div>
+
+
+
+                        <form method="POST" action="{% url 'post_message_profile_page' %}">{% csrf_token %}
+                            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8" >
+
+                                {% for message_error in message_errors %}
+                                    <p style="color: red;">{{ message_error }}</p>
+                                {% endfor %}
+
+                                <textarea name="message_text" cols="30" rows="10" style="width: 100%;"></textarea>
+
+                                <div class="row">
+                                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-top: 5px">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-picture"></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-top: 5px">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-facetime-video"></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-top: 5px">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-music"></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin-top: 5px">
+                                            <a href="#">
+                                                <span class="glyphicon glyphicon-map-marker"></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                        <button type="submit" class="btn btn-primary" style="float:right; margin-top: 5px;">post</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        </div>
+
+                    {% endif %}
+
+                </div>
+            {% endif %}
+
+
+            <div class="row">
+                {% for message in all_messages %}
+                    <hr>
+                    <div class="row">
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2" style="text-align: center">
+
+
+                            {% if other_user == True %}
+                                <p>other</p>
+                                {% if profile_form.picture.value %}
+                                <img src="{% url 'get_other_photo' user.id  %}" alt="{{ profile_form.user }}" style="width: 100%; height: 80px;"/>
+                                {% else %}
+                                <div style="width: 100%; height: 80px; border: solid">
+                                </div>
+                                {% endif %}
+                            {% else %}
+                                <p>not other</p>
+                                {% if profile_form.picture.value %}
+                                <img src="{% url 'get_photo' %}" alt="{{ profile_form.user }}" style="width: 100%; height: 80px;"/>
+                                {% else %}
+                                <div style="width: 100%; height: 80px; border: solid">
+                                </div>
+                                {% endif %}
+                            {% endif %}
+
+
+                            <p>{{ user }}</p>
+                        </div>
+                        <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                            <img src="" alt="" style="width: 100%; height: 300px;"/>
+                            <p>
+                                {{ message.text }}
+                            </p>
+
+                            <hr>
+
+                            <p style="float: right;">{{ message.date_time }}</p>
+
+                        </div>
+                        <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+
+
+    <div class="row">
+        <div class="list-group" style="margin-top: 20px; margin-left: 10px;">
+            <span class="label label-info">My friends</span>
+            <a href="#" class="list-group-item active">John <span class="badge">20</span></a>
+            <a href="#" class="list-group-item">Peter <span class="badge">10</span></a>
+            <a href="#" class="list-group-item">Cary <span class="badge">15</span></a>
+            <a href="#" class="list-group-item">Fog <span class="badge">2</span></a>
+            <a href="#" class="list-group-item">Kitty <span class="badge">3</span></a>
+            <a href="#" class="list-group-item">Mich <span class="badge">7</span></a>
+            <a href="#" class="list-group-item">Jack <span class="badge">12</span></a>
+            <a href="#" class="list-group-item">Pot <span class="badge">11</span></a>
+            <a href="#" class="list-group-item">Tiger <span class="badge">34</span></a>
+            <a href="#" class="list-group-item">Anne <span class="badge">8</span></a>
+            <a href="#" class="list-group-item">Jean <span class="badge">3</span></a>
+            <a href="#" class="list-group-item">David <span class="badge">8</span></a>
+            <a href="#" class="list-group-item">Andrew <span class="badge">9</span></a>
+            <a href="#" class="list-group-item">Lord <span class="badge">14</span></a>
+            <a href="#" class="list-group-item">Cat <span class="badge">16</span></a>
+            <a href="#" class="list-group-item">Dog <span class="badge">19</span></a>
+            <a href="#" class="list-group-item">Elephant <span class="badge">32</span></a>
+            <a href="#" class="list-group-item">Phi <span class="badge">23</span></a>
+            <a href="#" class="list-group-item">Goove <span class="badge">29</span></a>
+            <a href="#" class="list-group-item">Rochor <span class="badge">26</span></a>
+        </div>
+    </div>
+</div>
+{% endblock %}

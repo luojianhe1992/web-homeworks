@@ -1,0 +1,93 @@
+{% extends 'grumblr/base_home_profile.html' %}
+
+{% block basic %}
+    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4" style="text-align: center;">
+                {% if profile_form.picture.value %}
+                <img src="{% url 'get_photo' %}" alt="{{ profile_form.user }}" style="width: 100%; height: 250px;"/>
+                {% else %}
+                <div style="width: 100%; height: 250px; border: solid">
+                </div>
+                {% endif %}
+                <p style="font-size: large;">{{ user }}</p>
+            </div>
+
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
+                <ul class="nav nav-pills nav-justified">
+                    <li class="active"><a href="#">Work</a></li>
+                    <li><a href="#">Education</a></li>
+                    <li><a href="#">Interest</a></li>
+                    <li><a href="#">Friend</a></li>
+                </ul>
+
+                <hr>
+
+                {% for error in profile_form.non_field_errors %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endfor %}
+                
+                <div class="table-responsive">
+                    <form enctype="multipart/form-data" action="{% url 'go_to_profile_edit_page' %}" method="post">{% csrf_token %}
+
+                        <table class="table table-hover" style="text-align: center">
+
+
+                            <tr>
+                                <td>First Name: </td>
+                                <td><input type="text" name="first_name" value="{{ profile_form.first_name.value }}" style="outline: none; width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <td>Last Name: </td>
+                                <td><input type="text" name="last_name" value="{{ profile_form.last_name.value }}" style="outline: none; width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <td>Age: </td>
+                                <td><input type="text" name="age" value="{{ profile_form.age.value }}" style="outline: none; width: 100%;" /></td>
+                            </tr>
+                            <tr>
+                                <td>Short Bio: </td>
+                                <td><textarea name="short_bio" cols="30" rows="10" style="width: 100%;" >{{ profile_form.short_bio.value }}</textarea></td>
+                            </tr>
+                            <tr>
+                                <td>Picture:</td>
+                                <td>{{ profile_form.picture }}</td>
+                            </tr>
+
+                        </table>
+
+                        <button style="float: right;" type="submit">Finish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+        <div class="row">
+            <div class="list-group" style="margin-top: 20px; margin-left: 10px;">
+                <span class="label label-info">My friends</span>
+                <a href="#" class="list-group-item active">John <span class="badge">20</span></a>
+                <a href="#" class="list-group-item">Peter <span class="badge">10</span></a>
+                <a href="#" class="list-group-item">Cary <span class="badge">15</span></a>
+                <a href="#" class="list-group-item">Fog <span class="badge">2</span></a>
+                <a href="#" class="list-group-item">Kitty <span class="badge">3</span></a>
+                <a href="#" class="list-group-item">Mich <span class="badge">7</span></a>
+                <a href="#" class="list-group-item">Jack <span class="badge">12</span></a>
+                <a href="#" class="list-group-item">Pot <span class="badge">11</span></a>
+                <a href="#" class="list-group-item">Tiger <span class="badge">34</span></a>
+                <a href="#" class="list-group-item">Anne <span class="badge">8</span></a>
+                <a href="#" class="list-group-item">Jean <span class="badge">3</span></a>
+                <a href="#" class="list-group-item">David <span class="badge">8</span></a>
+                <a href="#" class="list-group-item">Andrew <span class="badge">9</span></a>
+                <a href="#" class="list-group-item">Lord <span class="badge">14</span></a>
+                <a href="#" class="list-group-item">Cat <span class="badge">16</span></a>
+                <a href="#" class="list-group-item">Dog <span class="badge">19</span></a>
+                <a href="#" class="list-group-item">Elephant <span class="badge">32</span></a>
+                <a href="#" class="list-group-item">Phi <span class="badge">23</span></a>
+                <a href="#" class="list-group-item">Goove <span class="badge">29</span></a>
+                <a href="#" class="list-group-item">Rochor <span class="badge">26</span></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

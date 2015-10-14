@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font: bold 14px
+}
+
+html {
+    height: 100%;
+    background: white;
+}
+
+#calculator {
+    width: 325px;
+    height: auto;
+
+    margin: 100px auto;
+    padding: 20px 20px 9px;
+
+    background: skyblue;
+    border-radius: 33px;
+}
+
+.top .screen {
+    height: 40px;
+    width: 100%;
+    float: left;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 10px;
+    font-size: 33px;
+    color: black;
+    text-align: right;
+    letter-spacing: 1px;
+}
+
+.keys, .top {overflow: auto;}
+
+.keys span{
+    float: left;
+    position: relative;
+    top: 0;
+
+    cursor: pointer;
+
+    width: 66px;
+    height: 36px;
+
+    background: white;
+    border-radius: 10px;
+
+    margin: 0 7px 11px 0;
+
+    color: black;
+    line-height: 36px;
+    text-align: center;
+
+    user-select: none;
+
+}
+
+.keys span.equal{
+    float: left;
+
+    background: pink;
+}
+
+.keys span.operator {
+    background: pink;
+    margin-right: 0;
+}
+
+
+/* Some hover effects */
+.keys span:hover {
+    background: gray;
+    color: white;
+}
+
+#blank{
+    background: skyblue;
+}
+
+.keys span:active {
+    top: 4px;
+}

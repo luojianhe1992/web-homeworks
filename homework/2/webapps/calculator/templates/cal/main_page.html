@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>calculator</title>
+
+    {% load staticfiles %}
+
+    <link rel="stylesheet" href="{% static 'cal/style.css' %}" type="text/css">
+</head>
+<body>
+
+<form action="" method="get">
+
+    <div id="calculator">
+        <div class="top">
+            <div class="screen" ><input class="screen" type="text" name="screen" value="{{ screen }}" readonly="readonly"/></div>
+            <input type="hidden" name="operation" value="{{ operation }}" />
+
+            <input type="hidden" name="previous_digit" value="{{ previous_digit }}" />
+            <input type="hidden" name="reset_screen" value="{{ reset_screen }}" />
+            <input type="hidden" name="exception" value="{{ exception }}" />
+            <input type="hidden" name="previous_button" value="{{ previous_button }}" />
+        </div>
+
+
+        <div class="keys">
+            <input type="submit" value="7" name="digit" />
+            <input type="submit" value="8" name="digit" />
+            <input type="submit" value="9" name="digit" />
+
+            <input class="operator" type="submit" value="+" name="operator" />
+
+            <input type="submit" value="4" name="digit" />
+            <input type="submit" value="5" name="digit" />
+            <input type="submit" value="6" name="digit" />
+
+            <input class="operator" type="submit" value="-" name="operator" />
+
+            <input type="submit" value="1" name="digit" />
+            <input type="submit" value="2" name="digit" />
+            <input type="submit" value="3" name="digit" />
+
+            <input class="operator" type="submit" value="*" name="operator" />
+
+            <div id="blank" /></div>
+
+            <input type="submit" value="0" name="digit" />
+
+            <input class="operator" type="submit" value="=" name="equal" />
+
+            <input class="operator" type="submit" value="/" name="operator" />
+
+        </div>
+    </div>
+
+</form>
+
+
+</body>
+</html>
